@@ -118,3 +118,20 @@ Aplikasi ini dapat diuji secara *End-to-End* (E2E) melalui browser untuk memvali
 ![Delete Sukses](./public/screenshots/9-success-delete.png)
 
 - **Logout**: Klik tombol **Keluar** di pojok kanan atas. Sesi Anda akan berakhir, mencegah akses tanpa izin.
+
+---
+
+## ☁️ Deployment & CI/CD
+
+Proyek ini telah dikonfigurasi untuk ter-deploy secara otomatis ke VPS menggunakan **GitHub Actions**.
+
+### Arsitektur Deployment
+- **Cloud Provider**: Biznet Gio NEO Lite (Ubuntu 22.04)
+- **Proses Manager**: PM2 (menyajikan hasil *build* statis)
+- **Port Publik**: Aplikasi di-serve melalui Nginx Reverse Proxy (Port 80) yang meneruskan trafik ke frontend di port `3001`.
+
+### Alur CI/CD
+1. Setiap kali kode baru di-push ke branch `main`, workflow `.github/workflows/deploy.yml` akan berjalan.
+2. GitHub Actions masuk ke VPS secara otomatis menggunakan SSH Key (Base64 Secret).
+3. Mengeksekusi perintah: `git pull`, `npm install`, `npm run build`, dan `pm2 restart frontend`.
+4. Website langsung ter-update di server publik tanpa perlu campur tangan manual!
