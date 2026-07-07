@@ -1,0 +1,44 @@
+name: Deploy Frontend to VPS
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  deploy:
+    name: Deploy Frontend to VPS
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v4
+
+    - name: Setup SSH Key
+      env:
+        SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
+      run: |
+        mkdir -p ~/.ssh
+        echo "$SSH_PRIVATE_KEY" | base64 -d > ~/.ssh/deploy_key
+        chmod 600 ~/.ssh/deploy_key
+
+    - name: Deploy Frontend to VPS via SSH
+      run: |
+        ssh -i ~/.ssh/deploy_key \
+          -p ${{ secrets.VPS_PORT }} \
+          -o StrictHostKeyChecking=no \
+          ${{ secrets.VPS_USER }}@${{ secrets.VPS_HOST }} << 'ENDSSH'
+
+          export NVM_DIR="$HOME/.nvm"
+          [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"
+          export PATH="$HOME/.nvm/versions/node/v24.18.0/bin:$HOME/.local/bin:$PATH"
+
+          echo '=== Deploying Frontend ==='
+          cd ~/frontend
+          git pull origin main
+          npm install
+          npm run build
+          pm2 restart frontend
+          echo '=== Frontend Deployed ==='
+          pm2 list
+        ENDSSH
