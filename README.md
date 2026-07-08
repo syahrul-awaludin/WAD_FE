@@ -126,11 +126,13 @@ Proyek ini menggunakan standard **Vanilla CSS** (di dalam `index.css` dan `App.c
 Aplikasi dapat diuji secara *End-to-End* (E2E) melalui browser. Berikut adalah skenario pengujiannya:
 
 ### Akun Default (Seed Data)
-| Email | Password | Role |
-|---|---|---|
-| `budi@example.com` | `P@ssw0rd!` | USER |
-| `siti@example.com` | `P@ssw0rd!` | USER |
-| `admin@example.com` | `P@ssw0rd!` | ADMIN |
+| Email | Role |
+|---|---|
+| `budi@example.com` | USER |
+| `siti@example.com` | USER |
+| `admin@example.com` | ADMIN |
+
+> **Catatan:** Password akun seed bersifat rahasia. Hubungi administrator untuk mendapatkan akses.
 
 ### Skenario Pengujian
 
@@ -195,6 +197,6 @@ Frontend      Backend (API)
 | Secret | Keterangan |
 |---|---|
 | `SSH_PRIVATE_KEY` | Private key SSH (di-encode Base64) |
-| `VPS_HOST` | Alamat IP VPS (`103.93.135.88`) |
-| `VPS_USER` | Username VPS (`syahrulaw`) |
+| `VPS_HOST` | Alamat IP publik VPS |
+| `VPS_USER` | Username SSH VPS |
 | `VPS_PORT` | Port SSH (default: `22`) |
