@@ -3,6 +3,9 @@ import react from "@vitejs/plugin-react";
 
 export default defineConfig({
   plugins: [react()],
+  preview: {
+    allowedHosts: ['syahrulawaludin.my.id', 'www.syahrulawaludin.my.id'],
+  },
   server: {
     proxy: {
       // Semua request ke /api/... diteruskan ke backend
